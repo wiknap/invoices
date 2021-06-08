@@ -1,8 +1,11 @@
+using System.IO;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using PuppeteerSharp;
+using Serilog;
 
 namespace Invoices.Server
 {
@@ -13,15 +16,16 @@ namespace Invoices.Server
             Configuration = configuration;
         }
 
-        public IConfiguration Configuration { get; }
+        private IConfiguration Configuration { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
-
             services.AddControllersWithViews();
             services.AddRazorPages();
+
+            services.AddSingleton(new PuppeteerConfig());
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -50,6 +54,23 @@ namespace Invoices.Server
                 endpoints.MapControllers();
                 endpoints.MapFallbackToFile("index.html");
             });
+
+            app.UseSerilogRequestLogging();
         }
+    }
+
+    public class PuppeteerConfig
+    {
+        public PuppeteerConfig()
+        {
+            var browserFetcher = new BrowserFetcher(new BrowserFetcherOptions
+            {
+                Path = Path.GetTempPath() // Need to use a folder with write permissions. "/tmp/" in Azure
+            });
+            browserFetcher.DownloadAsync("851527").Wait();
+            BrowserExecutablePath = browserFetcher.GetExecutablePath("851527");
+        }
+
+        public string BrowserExecutablePath { get; }
     }
 }

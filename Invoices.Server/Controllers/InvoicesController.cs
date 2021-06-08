@@ -1,5 +1,6 @@
 ﻿using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using PuppeteerSharp;
 
 namespace Invoices.Server.Controllers
 {
@@ -7,10 +8,29 @@ namespace Invoices.Server.Controllers
     [ApiController]
     public class InvoicesController : ControllerBase
     {
-        [HttpGet]
-        public async Task<string> Get()
+        private readonly PuppeteerConfig _puppeteerConfig;
+
+        public InvoicesController(PuppeteerConfig puppeteerConfig)
         {
-            return await Task.FromResult("Hello from server");
+            _puppeteerConfig = puppeteerConfig;
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Get()
+        {
+            await using var browser = await Puppeteer.LaunchAsync(
+                new LaunchOptions
+                {
+                    Headless = true,
+                    ExecutablePath = _puppeteerConfig.BrowserExecutablePath
+                });
+            await using var page = await browser.NewPageAsync();
+            await page.GoToAsync("http://www.google.com");
+
+            return new FileStreamResult(await page.ScreenshotStreamAsync(), "image/png")
+            {
+                FileDownloadName = "image.png"
+            };
         }
     }
 }

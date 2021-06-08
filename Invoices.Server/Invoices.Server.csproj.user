@@ -6,7 +6,7 @@
   <PropertyGroup>
     <ActiveDebugProfile>Invoices.Server</ActiveDebugProfile>
     <ShowAllFiles>false</ShowAllFiles>
-    <NameOfLastUsedPublishProfile>C:\Sources\Invoices\Invoices.Server\Properties\PublishProfiles\invoices.wiknap.pl - Web Deploy.pubxml</NameOfLastUsedPublishProfile>
+    <NameOfLastUsedPublishProfile>C:\Sources\Invoices\Invoices.Server\Properties\PublishProfiles\invoices.wiknap.pl-WebDeploy.pubxml</NameOfLastUsedPublishProfile>
     <Controller_SelectedScaffolderID>ApiControllerEmptyScaffolder</Controller_SelectedScaffolderID>
     <Controller_SelectedScaffolderCategoryPath>root/Common/Api</Controller_SelectedScaffolderCategoryPath>
   </PropertyGroup>

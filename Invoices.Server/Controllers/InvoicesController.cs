@@ -1,36 +1,29 @@
 ﻿using System.Threading.Tasks;
+using Invoices.Application.Requests;
+using Invoices.Core;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using PuppeteerSharp;
 
-namespace Invoices.Server.Controllers
+namespace Invoices.Server.Controllers;
+
+[Route("api/[controller]")]
+[ApiController]
+public class InvoicesController : ControllerBase
 {
-    [Route("api/[controller]")]
-    [ApiController]
-    public class InvoicesController : ControllerBase
+    private readonly IMediator mediator;
+
+    public InvoicesController(IMediator mediator)
     {
-        private readonly PuppeteerConfig _puppeteerConfig;
+        this.mediator = mediator;
+    }
 
-        public InvoicesController(PuppeteerConfig puppeteerConfig)
-        {
-            _puppeteerConfig = puppeteerConfig;
-        }
-
-        [HttpGet]
-        public async Task<IActionResult> Get()
-        {
-            await using var browser = await Puppeteer.LaunchAsync(
-                new LaunchOptions
-                {
-                    Headless = true,
-                    ExecutablePath = _puppeteerConfig.BrowserExecutablePath
-                });
-            await using var page = await browser.NewPageAsync();
-            await page.GoToAsync("http://www.google.com");
-
-            return new FileStreamResult(await page.ScreenshotStreamAsync(), "image/png")
-            {
-                FileDownloadName = "image.png"
-            };
-        }
+    [HttpGet]
+    public async Task<IActionResult> GetInvoiceAsync()
+    {
+        var invoiceStream = await mediator.Send(new GenerateInvoiceRequest(
+            new InvoiceData(
+                new CompanyInfo("Name", "Street", "StreetNumber", "ApartmentNumber", "City", "PostalCode"),
+                new CompanyInfo("Name", "Street", "StreetNumber", "ApartmentNumber", "City", "PostalCode"))));
+        return File(invoiceStream, "application/pdf");
     }
 }

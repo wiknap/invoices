@@ -36,15 +36,15 @@ public class InvoiceDocument : IDocument
 
     private void ComposeContent(IContainer container)
     {
-        container.PaddingVertical(2, Unit.Centimetre)
-            .Grid(grid =>
-            {
-                grid.Columns(2);
-                grid.Item().Text(text => { text.Line("Line"); });
-                grid.Item().AlignRight().Text(text => { text.Line("Line"); });
-                grid.Item(2).AlignRight().Text(text => { text.Line("Line"); });
-                grid.Item(2).Text(text => { text.Line("Line"); });
-            });
+        container.PaddingVertical(2, Unit.Centimetre);
+            // .Grid(grid =>
+            // {
+            //     grid.Columns(2);
+            //     grid.Item().Text(text => { text.Line("Line"); });
+            //     grid.Item().AlignRight().Text(text => { text.Line("Line"); });
+            //     grid.Item(2).AlignRight().Text(text => { text.Line("Line"); });
+            //     grid.Item(2).Text(text => { text.Line("Line"); });
+            // });
     }
 
     private void ComposeFooter(IContainer container) => container.Element(ComposeUndeliverableInfo);

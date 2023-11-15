@@ -8,6 +8,6 @@ public static class DependencyInjection
 {
     public static IServiceCollection AddInvoices(this IServiceCollection services)
     {
-        return services.AddMediatR(Assembly.GetExecutingAssembly());
+        return services.AddMediatR(configuration => configuration.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly()));
     }
 }

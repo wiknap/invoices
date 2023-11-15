@@ -1,12 +1,20 @@
 **/.idea
 **/.vs
 
-*.DotSettings.user
-
-**/node_modules
+**/*.DotSettings.user
+**/*.DotSettings
 
 **/bin
 **/obj
 
-/SlimMateWeb/Scripts/build
-/SlimMateWeb/Logs
+src/Milo.Blazor/Components/**/*.css
+src/Milo.Blazor.Shop.Customer/Pages/**/*.css
+src/Milo.Blazor.Shop.Customer/Shared/**/*.css
+src/Milo.Blazor.Shop.Customer/Shared/*.css
+src/Milo.Blazor.Shop.Admin/Pages/**/*.css
+src/Milo.Blazor.Shop.Admin/Shared/**/*.css
+src/Milo.Blazor.Shop.Admin/Shared/*.css
+
+**/Logs
+
+.DS_Store

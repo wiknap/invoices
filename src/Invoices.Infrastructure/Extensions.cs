@@ -4,10 +4,12 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace Invoices.Infrastructure;
 
-public static class DependencyInjection
+public static class Extensions
 {
     public static IServiceCollection AddInvoicesInfrastructure(this IServiceCollection services)
     {
-        return services.AddScoped<IInvoiceGenerator, InvoiceGenerator>();
+        return services
+            .AddHostedService<QuestPdfInitializer>()
+            .AddScoped<IInvoiceGenerator, InvoiceGenerator>();
     }
 }

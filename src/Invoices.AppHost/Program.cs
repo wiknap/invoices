@@ -1,5 +1,5 @@
 var builder = DistributedApplication.CreateBuilder(args);
 
-//var server = builder.AddProject<ProjectResourceBuilderExtensions>("apiservice");
+builder.AddProject<Projects.Invoices_Server>("invoices.server");
 
 builder.Build().Run();

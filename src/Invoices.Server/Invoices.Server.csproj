@@ -11,10 +11,10 @@
     </ItemGroup>
     
     <ItemGroup>
+        <ProjectReference Include="..\Invoices.ServiceDefaults\Invoices.ServiceDefaults.csproj" />
         <ProjectReference Include="..\Invoices.Application\Invoices.Application.csproj" />
         <ProjectReference Include="..\Invoices.Client\Invoices.Client.csproj" />
         <ProjectReference Include="..\Invoices.Infrastructure\Invoices.Infrastructure.csproj" />
-        <ProjectReference Include="..\Invoices.ServiceDefaults\Invoices.ServiceDefaults.csproj" />
     </ItemGroup>
 
 </Project>

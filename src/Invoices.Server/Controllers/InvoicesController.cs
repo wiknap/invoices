@@ -1,8 +1,9 @@
-﻿using System.Threading.Tasks;
-using Invoices.Application.Requests;
+﻿using Invoices.Application.Queries;
 using Invoices.Core;
-using MediatR;
+
 using Microsoft.AspNetCore.Mvc;
+
+using Wiknap.CQRS;
 
 namespace Invoices.Server.Controllers;
 
@@ -10,17 +11,17 @@ namespace Invoices.Server.Controllers;
 [ApiController]
 public class InvoicesController : ControllerBase
 {
-    private readonly IMediator mediator;
+    private readonly IQueryDispatcher queryDispatcher;
 
-    public InvoicesController(IMediator mediator)
+    public InvoicesController(IQueryDispatcher queryDispatcher)
     {
-        this.mediator = mediator;
+        this.queryDispatcher = queryDispatcher;
     }
 
     [HttpGet]
     public async Task<IActionResult> GetInvoiceAsync()
     {
-        var invoiceStream = await mediator.Send(new GenerateInvoiceRequest(
+        var invoiceStream = await queryDispatcher.DispatchAsync<GenerateInvoiceQuery, Stream>(new GenerateInvoiceQuery(
             new InvoiceData(
                 new CompanyInfo("Name", "Street", "StreetNumber", "ApartmentNumber", "City", "PostalCode"),
                 new CompanyInfo("Name", "Street", "StreetNumber", "ApartmentNumber", "City", "PostalCode"))));

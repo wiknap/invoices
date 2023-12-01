@@ -10,7 +10,7 @@
 
     <ItemGroup>
         <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="8.0.0" />
-        <PackageReference Include="Wiknap.CQRS.DependencyInjection" Version="1.0.4" />
+        <PackageReference Include="Wiknap.CQRS.DependencyInjection" Version="1.0.5" />
     </ItemGroup>
 
 </Project>

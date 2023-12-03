@@ -9,9 +9,9 @@ public static class InvoiceDataExtension
 {
     public static string GetFirstAddressLine(this CompanyInfo data)
     {
-        var line = $"{data.StreetName} ${data.StreetNumber}";
+        var line = $"{data.StreetName} {data.StreetNumber}";
         return data.ApartmentNumber is not null ? $"{line}/{data.ApartmentNumber}" : line;
     }
 
-    public static string GetSecondAddressLine(this CompanyInfo data) => $"{data.PostalCode}, ${data.City}";
+    public static string GetSecondAddressLine(this CompanyInfo data) => $"{data.PostalCode}, {data.City}";
 }

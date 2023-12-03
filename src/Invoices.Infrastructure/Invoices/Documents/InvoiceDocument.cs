@@ -1,12 +1,11 @@
 ﻿using Invoices.Core;
-using QuestPDF.Drawing;
 using QuestPDF.Fluent;
 using QuestPDF.Helpers;
 using QuestPDF.Infrastructure;
 
 namespace Invoices.Infrastructure.Invoices.Documents;
 
-public class InvoiceDocument : IDocument
+public sealed class InvoiceDocument : IDocument
 {
     private readonly InvoiceData invoiceData;
 
@@ -36,15 +35,38 @@ public class InvoiceDocument : IDocument
 
     private void ComposeContent(IContainer container)
     {
-        container.PaddingVertical(2, Unit.Centimetre);
-            // .Grid(grid =>
-            // {
-            //     grid.Columns(2);
-            //     grid.Item().Text(text => { text.Line("Line"); });
-            //     grid.Item().AlignRight().Text(text => { text.Line("Line"); });
-            //     grid.Item(2).AlignRight().Text(text => { text.Line("Line"); });
-            //     grid.Item(2).Text(text => { text.Line("Line"); });
-            // });
+        container.PaddingVertical(2, Unit.Centimetre)
+            .Table(table =>
+            {
+                table.ColumnsDefinition(columns =>
+                {
+                    columns.ConstantColumn(25);
+                    columns.RelativeColumn(2);
+                    columns.RelativeColumn();
+                    columns.RelativeColumn();
+                    columns.RelativeColumn();
+                    columns.RelativeColumn();
+                    columns.RelativeColumn();
+                    columns.RelativeColumn();
+                });
+
+                // step 2
+                table.Header(header =>
+                {
+                    header.Cell().Element(CellStyle).Text("#");
+                    header.Cell().Element(CellStyle).Text("Name");
+                    header.Cell().Element(CellStyle).AlignCenter().AlignMiddle().Text("Unit price - Netto");
+                    header.Cell().Element(CellStyle).AlignCenter().AlignMiddle().Text("Quantity");
+                    header.Cell().Element(CellStyle).AlignCenter().AlignMiddle().Text("Total - Netto");
+                    header.Cell().Element(CellStyle).AlignCenter().AlignMiddle().Text("VAT Rate");
+                    header.Cell().Element(CellStyle).AlignCenter().AlignMiddle().Text("VAT");
+                    header.Cell().Element(CellStyle).AlignCenter().AlignMiddle().Text("Total - Brutto");
+                    return;
+
+                    static IContainer CellStyle(IContainer container)
+                        => container.DefaultTextStyle(x => x.FontSize(8).SemiBold()).PaddingVertical(5).BorderBottom(1).BorderColor(Colors.Black);
+                });
+            });
     }
 
     private void ComposeFooter(IContainer container) => container.Element(ComposeUndeliverableInfo);
